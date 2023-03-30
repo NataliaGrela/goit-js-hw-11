@@ -6,30 +6,39 @@ import Notiflix from 'notiflix';
 const form = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
-const inputSearch = document.querySelector('[name="searchQuery"]')
-const btn = document.querySelector('.btn')
+const inputSearch = document.querySelector('[name="searchQuery"]');
+const btn = document.querySelector('.btn');
 let page = 1;
-let query = ''
+let query = '';
 
 loadMoreBtn.style.display = 'none';
 
-const handleChange = e => { 
-query = e.target.value
-}
+const handleChange = e => {
+  query = e.target.value;
+};
 
 const handleClick = async e => {
-    e.preventDefault()
-    const data = await fetchPicture(40, query)
-    console.log(data);
-    createGallery(data.hits)
-}
+  e.preventDefault();
+  const data = await fetchPicture(40, query);
+  console.log(data);
+  createGallery(data.hits);
+};
 
-const createGallery = (data) => {
-    console.log(data);
-    const images = data.map(image => {
-        const { webformatURL, largeImageURL, tags, likes, views, comments, downloads} = image
-        
-        return(`<div class="photo-card">
+const createGallery = data => {
+  console.log(data);
+  const images = data
+    .map(image => {
+      const {
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      } = image;
+
+      return `<div class="photo-card">
   <img src="${webformatURL}" alt="" loading="lazy" />
   <div class="info">
     <p class="info-item">
@@ -45,28 +54,12 @@ const createGallery = (data) => {
       <b>Downloads: ${downloads}</b>
     </p>
   </div>
-</div>`)
-    }).join(' ')
-    gallery.innerHTML = images
-    console.log(images);
+</div>`;
+    })
+    .join(' ');
+  gallery.innerHTML = images;
+  console.log(images);
+};
 
- }
- 
- 
-btn.addEventListener ('click', handleClick)
-inputSearch.addEventListener ('input', handleChange)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+btn.addEventListener('click', handleClick);
+inputSearch.addEventListener('input', handleChange);
