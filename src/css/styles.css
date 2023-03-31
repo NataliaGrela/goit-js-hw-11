@@ -71,14 +71,30 @@ input:hover {
 .info {
   display: flex;
   /* flex-wrap: wrap; */
-  padding: 15px 0px 5px 20px;
+  padding: 15px 10px 5px 10px;
   justify-content: space-between;
   align-content: center;
   color: #161616;
+  text-align: center;
 }
+
 .info-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.load-more {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
 }

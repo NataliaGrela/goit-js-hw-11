@@ -2,30 +2,45 @@ import './css/styles.css';
 import { fetchPicture } from './js/fetchPicture';
 import axios from 'axios';
 import Notiflix from 'notiflix';
+// import SimpleLightbox from 'simplelightbox';
 
 const form = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
 const inputSearch = document.querySelector('[name="searchQuery"]');
 const btn = document.querySelector('.btn');
+const loadMore = document.querySelector('.load-more');
+let totalImages;
 let page = 1;
 let query = '';
-
-loadMoreBtn.style.display = 'none';
 
 const handleChange = e => {
   query = e.target.value;
 };
 
+const hideLoadMore = () => {
+  loadMore.className = 'load-more hidden';
+};
+
 const handleClick = async e => {
   e.preventDefault();
-  const data = await fetchPicture(40, query);
-  console.log(data);
+  hideLoadMore();
+  page = 1;
+  const data = await fetchPicture(page, query);
   createGallery(data.hits);
+  const { total, totalHits } = data;
+  if (total && totalHits) {
+    totalImages = total;
+    if (total - (page - 1) * 40 > 40) {
+      loadMore.className = 'load-more';
+    } else {
+      loadMore.className = 'hidden';
+    }
+    Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+  }
 };
 
 const createGallery = data => {
-  console.log(data);
   const images = data
     .map(image => {
       const {
@@ -38,28 +53,48 @@ const createGallery = data => {
         downloads,
       } = image;
 
-      return `<div class="photo-card">
+      return `<a href=${largeImageURL} 
+      <div class="photo-card">
   <img src="${webformatURL}" alt="" loading="lazy" />
   <div class="info">
     <p class="info-item">
-      <b>Likes: ${likes}</b>
+      <b>Likes:</b> ${likes}
     </p>
     <p class="info-item">
-      <b>Views: ${views}</b>
+      <b>Views:</b> ${views}
     </p>
     <p class="info-item">
-      <b>Comments: ${comments}</b>
+      <b>Comments:</b>${comments}
     </p>
     <p class="info-item">
-      <b>Downloads: ${downloads}</b>
+      <b>Downloads:</b>${downloads}
     </p>
   </div>
-</div>`;
+  </div>
+</a>`;
     })
     .join(' ');
   gallery.innerHTML = images;
-  console.log(images);
+};
+
+const handleLoadMore = async () => {
+  if (totalImages - page * 40 > 40) {
+    loadMore.className = 'load-more';
+  } else {
+    loadMore.className = 'hidden';
+    Notiflix.Notify.warning(
+      `We're sorry, but you've reached the end of search results.`
+    );
+  }
+  page++;
+  const data = await fetchPicture(page, query);
+  console.log(data);
+  createGallery(data.hits);
+  const { total } = data;
 };
 
 btn.addEventListener('click', handleClick);
-inputSearch.addEventListener('input', handleChange);
+handleChange && inputSearch.addEventListener('input', handleChange);
+
+loadMore.addEventListener('click', handleLoadMore);
+
