@@ -7,7 +7,7 @@ const PARAMS = `?key=${API_KEY}&image_type=photo&orientation=horizontal&safesear
 export const fetchPicture = async (perPage, query) => {
   const endPoint =
     API_URL +
-    `?key=${API_KEY}&image_type=${query}&orientation=horizontal&safesearch=true&per_page=${perPage}`;
+    `/?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${perPage}`;
   const response = await axios.get(endPoint);
   if (response.status != 200) {
     Notiflix.Notify.failure(
