@@ -2,7 +2,6 @@ import './css/styles.css';
 import { fetchPicture } from './js/fetchPicture';
 import axios from 'axios';
 import Notiflix from 'notiflix';
-// import SimpleLightbox from 'simplelightbox';
 
 const form = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -53,8 +52,9 @@ const createGallery = data => {
         downloads,
       } = image;
 
-      return `<a href=${largeImageURL} 
+      return `
       <div class="photo-card">
+      <a href=${largeImageURL}>
   <img src="${webformatURL}" alt="" loading="lazy" />
   <div class="info">
     <p class="info-item">
@@ -70,15 +70,18 @@ const createGallery = data => {
       <b>Downloads:</b>${downloads}
     </p>
   </div>
+  </a>
   </div>
-</a>`;
+`;
     })
     .join(' ');
   gallery.innerHTML = images;
 };
 
 const handleLoadMore = async () => {
-  if (totalImages - page * 40 > 40) {
+  if (
+    totalImages - 
+    page * 40 > 40) {
     loadMore.className = 'load-more';
   } else {
     loadMore.className = 'hidden';
@@ -97,4 +100,3 @@ btn.addEventListener('click', handleClick);
 handleChange && inputSearch.addEventListener('input', handleChange);
 
 loadMore.addEventListener('click', handleLoadMore);
-

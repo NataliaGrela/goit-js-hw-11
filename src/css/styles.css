@@ -85,10 +85,6 @@ input:hover {
   gap: 5px;
 }
 
-.hidden {
-  display: none;
-}
-
 a {
   text-decoration: none;
 }
@@ -97,4 +93,8 @@ a {
   display: block;
   text-align: center;
   margin: 0 auto;
+}
+
+.hidden {
+  display: none;
 }
