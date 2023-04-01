@@ -1,5 +1,5 @@
 import './css/styles.css';
-import { fetchPicture } from './js/fetchPicture';
+import { getImages } from './js/getImages';
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
@@ -25,7 +25,7 @@ const handleClick = async e => {
   e.preventDefault();
   hideLoadMore();
   page = 1;
-  const data = await fetchPicture(page, query);
+  const data = await getImages(page, query);
   createGallery(data.hits);
   const { total, totalHits } = data;
   if (total && totalHits) {
@@ -90,7 +90,7 @@ const handleLoadMore = async () => {
     );
   }
   page++;
-  const data = await fetchPicture(page, query);
+  const data = await getImages(page, query);
   console.log(data);
   createGallery(data.hits);
   const { total } = data;
