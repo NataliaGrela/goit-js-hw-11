@@ -75,13 +75,12 @@ const createGallery = data => {
 `;
     })
     .join(' ');
-  gallery.innerHTML = images;
+  // gallery.innerHTML = images;
+  gallery.insertAdjacentHTML('beforeend', images);
 };
 
 const handleLoadMore = async () => {
-  if (
-    totalImages - 
-    page * 40 > 40) {
+  if (totalImages - page * 40 > 40) {
     loadMore.className = 'load-more';
   } else {
     loadMore.className = 'hidden';

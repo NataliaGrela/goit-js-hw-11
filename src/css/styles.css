@@ -93,6 +93,10 @@ a {
   display: block;
   text-align: center;
   margin: 0 auto;
+  height: 20px;
+  width: 80px;
+  background-color: lightgray;
+  cursor: pointer;
 }
 
 .hidden {
